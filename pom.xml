@@ -74,6 +74,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-junit-jupiter</artifactId>
       <scope>test</scope>
@@ -130,40 +135,7 @@
           <scope>runtime</scope>
           <optional>true</optional>
         </dependency>
-        <dependency>
-          <groupId>org.testcontainers</groupId>
-          <artifactId>postgresql</artifactId>
-          <scope>test</scope>
-        </dependency>
       </dependencies>
-    </profile>
-
-    <profile>
-      <id>prod</id>
-      <properties>
-        <spring.profiles.active>prod</spring.profiles.active>
-        <spring.application.version>${version}</spring.application.version>
-      </properties>
-      <build>
-        <resources>
-          <resource>
-            <directory>src/main/resources</directory>
-            <includes>
-              <include>application.yml</include>
-              <include>application-${spring.profiles.active}.yml</include>
-              <include>db/migration/**</include>
-            </includes>
-            <filtering>true</filtering>
-          </resource>
-        </resources>
-      </build>
-    </profile>
-
-    <profile>
-      <id>ci</id>
-      <properties>
-        <spring.profiles.active>ci</spring.profiles.active>
-      </properties>
       <build>
         <plugins>
           <plugin>
@@ -185,6 +157,27 @@
             </executions>
           </plugin>
         </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>prod</id>
+      <properties>
+        <spring.profiles.active>prod</spring.profiles.active>
+        <spring.application.version>${version}</spring.application.version>
+      </properties>
+      <build>
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+              <include>application.yml</include>
+              <include>application-${spring.profiles.active}.yml</include>
+              <include>db/migration/**</include>
+            </includes>
+            <filtering>true</filtering>
+          </resource>
+        </resources>
       </build>
     </profile>
   </profiles>
