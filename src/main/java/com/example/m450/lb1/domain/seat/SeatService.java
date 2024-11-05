@@ -97,6 +97,9 @@ public class SeatService {
         seatRepository.save(seat);
     }
 
+    /**
+     * LB1: 3b TDD Impl
+     */
     public List<SeatDTO.SeatResponse> getAvailableSeatsByFlightId(Long flightId) {
         return seatRepository.findByFlightId(flightId).stream()
                 .filter(seat -> seat.getPassengerId() == null)
@@ -104,6 +107,9 @@ public class SeatService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * LB1: 3b TDD Impl
+     */
     public List<SeatDTO.SeatResponse> getOccupiedSeatsByFlightId(Long flightId) {
         return seatRepository.findByFlightId(flightId).stream()
                 .filter(seat -> seat.getPassengerId() != null)
