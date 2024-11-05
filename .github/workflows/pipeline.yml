@@ -68,7 +68,7 @@ jobs:
     
     - name: Run tests
       run: |
-        ./mvnw ${{ env.MAVEN_CLI_OPTS }} test -Pci
+        ./mvnw ${{ env.MAVEN_CLI_OPTS }} test
         echo "Total Coverage $(cat target/site/jacoco/index.html | grep -o 'Total[^%]*%' | sed -n 's/.*Total.*>\(.*\)%/\1/p')%"
     
     - name: Publish Test Report
