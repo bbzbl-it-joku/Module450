@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: Modul450 LB1 Projekt
+    version: "@version@"
+  profiles:
+    active: "@spring.profiles.active@"
+  threads:
+    virtual:
+      enabled: true
+  data:
+    jdbc:
+      repositories:
+        enabled: true
