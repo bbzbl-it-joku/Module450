@@ -1,13 +1,13 @@
 package com.example.m450.lb1.status;
 
+import java.time.Clock;
+import java.time.Duration;
+import java.time.ZonedDateTime;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.Clock;
-import java.time.Duration;
-import java.time.ZonedDateTime;
 
 @RestController
 @RequestMapping("/status")
@@ -22,6 +22,11 @@ public class StatusController {
     }
 
     @GetMapping
+    public ResponseEntity<String> getStatus() {
+        return ResponseEntity.ok("OK");
+    }
+
+    @GetMapping("/uptime")
     public ResponseEntity<String> getUptime() {
         // Calculate uptime
         Duration uptime = Duration.between(startTime, ZonedDateTime.now(clock));
