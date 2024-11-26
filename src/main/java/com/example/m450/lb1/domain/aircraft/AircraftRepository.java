@@ -22,6 +22,8 @@ public interface AircraftRepository extends ListCrudRepository<Aircraft, Long> {
 
     List<Aircraft> findByType(String type);
 
+    List<Aircraft> findByCapacity(int capacity);
+
     List<Aircraft> findByCapacityGreaterThan(int capacity);
 
     List<Aircraft> findByCapacityBetween(int minCapacity, int maxCapacity);

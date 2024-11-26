@@ -77,7 +77,7 @@ public class AircraftService {
 
     public List<AircraftDTO.AircraftResponse> getAircraftByCapacity(int capacity)
             throws ResourceNotFoundException {
-        List<Aircraft> aircraft = aircraftRepository.findByCapacityGreaterThan(capacity);
+        List<Aircraft> aircraft = aircraftRepository.findByCapacity(capacity);
         if (aircraft.isEmpty()) {
             throw new ResourceNotFoundException("Aircraft", "capacity", ">" + capacity);
         }
