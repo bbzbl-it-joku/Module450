@@ -16,7 +16,7 @@ CREATE TABLE aircraft (
     capacity INTEGER NOT NULL CHECK (capacity > 0),
     created_at TIMESTAMP,
     updated_at TIMESTAMP,
-    FOREIGN KEY (airline_id) REFERENCES airline(id)
+    FOREIGN KEY (airline_id) REFERENCES airline(id) ON DELETE CASCADE
 );
 
 CREATE TABLE passenger (
@@ -39,7 +39,7 @@ CREATE TABLE flight (
     origin VARCHAR(255) NOT NULL,
     created_at TIMESTAMP,
     updated_at TIMESTAMP,
-    FOREIGN KEY (aircraft_id) REFERENCES aircraft(id),
+    FOREIGN KEY (aircraft_id) REFERENCES aircraft(id) ON DELETE CASCADE,
     CHECK (estimated_arrival_time > departure_time)
 );
 
@@ -50,7 +50,7 @@ CREATE TABLE seat (
     passenger_id BIGINT,
     created_at TIMESTAMP,
     updated_at TIMESTAMP,
-    FOREIGN KEY (flight_id) REFERENCES flight(id),
-    FOREIGN KEY (passenger_id) REFERENCES passenger(id),
+    FOREIGN KEY (flight_id) REFERENCES flight(id) ON DELETE CASCADE,
+    FOREIGN KEY (passenger_id) REFERENCES passenger(id) ON DELETE SET NULL,
     UNIQUE (seat_number, flight_id)
 );
