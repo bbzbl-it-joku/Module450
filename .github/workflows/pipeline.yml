@@ -100,6 +100,8 @@ jobs:
     - name: Coverage Report
       id: coverage
       run: |
+        ls -la
+        ls -la test-results/
         COVERAGE=$(cat test-results/jacoco.xml | grep -oP 'covered="[^"]*"' | head -1 | cut -d'"' -f2)
         TOTAL=$(cat test-results/jacoco.xml | grep -oP 'missed="[^"]*"' | head -1 | cut -d'"' -f2)
         COVERAGE_PCT=$(awk "BEGIN {print ($COVERAGE/($COVERAGE+$TOTAL))*100}")
