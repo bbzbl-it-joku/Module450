@@ -88,15 +88,40 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Download JaCoCo report
+      with:
+        fetch-depth: 0
+
+    - name: Download test results
       uses: actions/download-artifact@v4
       with:
         name: test-results
-        path: target/site/
-    
-    - name: Generate Cobertura report
-      uses: codecov/codecov-action@v3
+        path: test-results
+
+    - name: Coverage Report
+      id: coverage
+      run: |
+        COVERAGE=$(cat test-results/jacoco.xml | grep -oP 'covered="[^"]*"' | head -1 | cut -d'"' -f2)
+        TOTAL=$(cat test-results/jacoco.xml | grep -oP 'missed="[^"]*"' | head -1 | cut -d'"' -f2)
+        COVERAGE_PCT=$(awk "BEGIN {print ($COVERAGE/($COVERAGE+$TOTAL))*100}")
+        echo "coverage=$COVERAGE_PCT" >> $GITHUB_OUTPUT
+        
+    - name: Create Coverage Comment
+      uses: actions/github-script@v7
       with:
-        files: target/site/jacoco/jacoco.xml
-        fail_ci_if_error: true
+        script: |
+          const coverage = Number(process.env.COVERAGE).toFixed(2);
+          const emoji = coverage >= 80 ? '✅' : coverage >= 60 ? '⚠️' : '❌';
+          
+          const comment = `## Code Coverage Report ${emoji}\n\n` +
+            `Total coverage: ${coverage}%\n\n` +
+            `Target: 80%\n` +
+            `Status: ${coverage >= 80 ? 'Passing' : 'Needs Improvement'}`;
+            
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.name,
+            body: comment
+          })
+      env:
+        COVERAGE: ${{ steps.coverage.outputs.coverage }}
